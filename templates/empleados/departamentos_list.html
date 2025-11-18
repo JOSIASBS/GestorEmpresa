@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Departamentos</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/departamentos.css' %}">
+</head>
+<body>
+<header>
+    <div class="logo">Departamentos</div>
+    <nav>
+        <a href="/fichar/">Fichaje</a>
+        {% if empleado.role != 'empleado' %}
+            <a href="{% url 'empleados_list' %}">Empleados</a>
+        {% endif %}
+        <a href="/departamentos/">Departamentos</a>
+        <a href="/chat/">Chat</a>
+        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/calendario/">Calendario</a>
+        <a href="/solicitudes/">Solicitudes</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Departamentos</h1>
+    <button>Añadir Departamento</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre del Departamento</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in departamentos %}
+            <tr>
+                <td><strong>{{ d.nombre }}</strong></td>
+                <td>{{ d.descripcion|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No hay departamentos.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

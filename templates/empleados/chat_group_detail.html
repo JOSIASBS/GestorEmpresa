@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Grupo - {{ grupo.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">{{ grupo.nombre }}</div>
+    <nav>
+        <a href="{% url 'chat_groups_list' %}">Volver a grupos</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <p>{{ grupo.descripcion }}</p>
+
+    <h2>Mensajes</h2>
+    <ul class="messages">
+        {% for m in mensajes %}
+            {% if m.sender.user == empleado %}
+                <li class="chat-bubble sender">
+                    {{ m.content }}
+                    <em style="display:block; font-size:0.75rem; margin-top:4px;">({{ m.timestamp|date:"d/m/Y H:i" }})</em>
+                </li>
+            {% else %}
+                <li class="chat-bubble receiver">
+                    <strong>{{ m.sender.user.get_full_name|default:m.sender.user.username }}:</strong> {{ m.content }}
+                    <em style="display:block; font-size:0.75rem; margin-top:4px;">({{ m.timestamp|date:"d/m/Y H:i" }})</em>
+                </li>
+            {% endif %}
+        {% empty %}
+            <li>No hay mensajes.</li>
+        {% endfor %}
+    </ul>
+
+    {% if puede_enviar %}
+    <form method="post" class="send-message">
+        {% csrf_token %}
+        {{ form.content }}
+        <button type="submit">Enviar</button>
+    </form>
+    {% else %}
+    <p><em>No puedes enviar mensajes en este grupo.</em></p>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Departamentos Admin</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/departamentos.css' %}">
+</head>
+<body>
+<header>
+    <div class="logo">Departamentos</div>
+    <nav>
+        <a href="/fichar/">Fichaje</a>
+        <a href="/departamentos/">Departamentos</a>
+        {% if empleado.role != 'empleado' %}
+            <a href="{% url 'empleados_list' %}">Empleados</a>
+        {% endif %}
+        <a href="/reportes/">Reportes</a>
+        <a href="/chat/">Chat</a>
+        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/calendario/">Calendario</a>
+        <a href="/solicitudes/">Solicitudes</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Departamentos (Administrador)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Departamento</th>
+                <th>Descripción</th>
+                <th>Total de empleados</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.departamento.nombre }}</td>
+                <td>{{ item.departamento.descripcion }}</td>
+                <td>{{ item.total_empleados }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

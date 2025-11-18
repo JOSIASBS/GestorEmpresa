@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Grupos de chat</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">Mis Chats</div>
+    <nav>
+        <a href="/fichar/">Fichaje</a>
+        <a href="/departamentos/">Departamentos</a>
+        {% if empleado.role != 'empleado' %}
+            <a href="{% url 'empleados_list' %}">Empleados</a>
+        {% endif %}
+        <a href="/reportes/">Reportes</a>
+        <a href="/chat/">Chat</a>
+        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/calendario/">Calendario</a>
+        <a href="/solicitudes/">Solicitudes</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="top-links">
+        <a class="btn-link" href="{% url 'crear_chat' %}">Crear nuevo chat</a>
+        <a class="btn-link" href="{% url 'chat_group_detail' obtener_grupo_anuncios.id %}">#Anuncios</a>
+    </div>
+
+    <div class="chat-columns">
+        <div class="chat-column">
+            <h2>Chats grupales</h2>
+            <ul class="chats-list">
+                {% for g in grupos %}
+                <li class="chat-item">
+                    <div class="chat-avatar">{{ g.nombre|slice:":1" }}</div>
+                    <div class="chat-content">
+                        <div class="chat-name">{{ g.nombre }}</div>
+                        <div class="chat-details">{{ g.miembros.count }} miembros</div>
+                    </div>
+                    <a class="chat-link" href="{% url 'chat_group_detail' g.id %}"></a>
+                </li>
+                {% empty %}
+                    <li>No perteneces a ningún grupo.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="chat-column">
+            <h2>Chats privados</h2>
+            <ul class="chats-list">
+                {% for p in privados %}
+                <li class="chat-item">
+                    <div class="chat-avatar">{{ p.user.get_full_name|default:p.user.username|slice:":1" }}</div>
+                    <div class="chat-content">
+                        <div class="chat-name">{{ p.user.get_full_name|default:p.user.username }}</div>
+                        <div class="chat-details">Último mensaje</div>
+                    </div>
+                    <a class="chat-link" href="{% url 'private_chat' p.id %}"></a>
+                </li>
+                {% empty %}
+                    <li>No tienes chats privados.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% load static %}
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'empleados/css/perfil.css' %}">
+</head>
+<body>
+
+<header>{{ block.super }}</header>
+
+<div class="container">
+<h2>Editar Perfil</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn">Guardar Cambios</button>
+</form>
+</div>
+
+</body>
+</html>

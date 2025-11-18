@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Calendario</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendario</h1>
+
+    <nav>
+        <a href="{% url 'chat_groups_list' %}">Chat</a> |
+        <a href="{% url 'fichar' %}">Fichaje</a>
+    </nav>
+
+    <div id="calendar"></div>
+
+    {% if form %}
+    <h2 style="text-align:center;">Crear nuevo evento</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar evento</button>
+    </form>
+    {% endif %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: [
+            {% for e in eventos %}
+            {
+                id: "{{ e.id }}",
+                title: "{{ e.titulo|escapejs }}",
+                start: "{{ e.fecha_inicio|date:'Y-m-d\\TH:i:s' }}",
+                end: "{{ e.fecha_fin|date:'Y-m-d\\TH:i:s' }}",
+                description: "{{ e.descripcion|default_if_none:''|escapejs }}",
+                color: "{% if e.tipo == 'tarea' %}blue{% elif e.tipo == 'reunion' %}green{% else %}gray{% endif %}"
+            },
+            {% endfor %}
+        ],
+        eventClick: function(info) {
+            let mensaje = info.event.title + "\n\n" + (info.event.extendedProps.description || "Sin descripción");
+
+            {% if empleado.role in 'admin manager' %}
+            if (confirm(mensaje + "\n\n¿Deseas eliminar este evento?")) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '';
+                form.innerHTML = `
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_id" value="${info.event.id}">
+                `;
+                document.body.appendChild(form);
+                form.submit();
+            }
+            {% else %}
+            alert(mensaje);
+            {% endif %}
+        }
+    });
+
+    calendar.render();
+
+
+    const tipoSelect = document.getElementById('id_tipo');
+    const fechaFinField = document.getElementById('id_fecha_fin').closest('p');
+
+   function toggleFechaFin() {
+    const valor = tipoSelect.value.toLowerCase();
+    const fechaInicioLabel = document.querySelector("label[for='id_fecha_inicio']");
+    if (valor === 'reunion' || valor === 'otro') {
+        fechaFinField.style.display = 'none';
+        document.getElementById('id_fecha_inicio').setAttribute('type', 'datetime-local');
+        if (fechaInicioLabel) fechaInicioLabel.textContent = "Fecha y hora";
+    } else {
+        fechaFinField.style.display = 'block';
+        if (fechaInicioLabel) fechaInicioLabel.textContent = "Fecha de inicio";
+    }
+}
+
+
+    if (tipoSelect && fechaFinField) {
+        tipoSelect.addEventListener('change', toggleFechaFin);
+        toggleFechaFin();
+    }
+});
+</script>
+
+</body>
+</html>
