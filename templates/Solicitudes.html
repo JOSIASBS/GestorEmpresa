@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/solicitudes.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">Solicitudes</div>
+    <nav>
+        <a href="/fichar/">Fichaje</a>
+        <a href="/departamentos/">Departamentos</a>
+        <a href="/empleados">Empleados</a>
+        <a href="/chat/">Chat</a>
+        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/calendario/">Calendario</a>
+        <a href="/solicitudes/">Solicitudes</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Solicitudes</h1>
+
+    {% if empleado.role != 'admin' %}
+    <h2>Crear solicitud</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="crear">Enviar solicitud</button>
+    </form>
+    {% endif %}
+
+    <h2>Listado de solicitudes</h2>
+    <table>
+        <tr>
+            <th>Empleado</th>
+            <th>Tipo</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            {% if empleado.role in 'admin manager' %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+        {% for s in solicitudes %}
+        <tr>
+            <td data-label="Empleado">{{ s.empleado.user.get_full_name }}</td>
+            <td data-label="Tipo">{{ s.get_tipo_display }}</td>
+            <td data-label="Fecha inicio">{{ s.fecha_inicio }}</td>
+            <td data-label="Fecha fin">{{ s.fecha_fin }}</td>
+            <td data-label="Motivo">{{ s.motivo }}</td>
+            <td data-label="Estado">{{ s.get_estado_display }}</td>
+            {% if empleado.role in 'admin manager' and s.estado == 'pendiente' %}
+            <td data-label="Acciones">
+                <a href="{% url 'aprobar_solicitud' s.id 'aprobar' %}">Aprobar</a> |
+                <a href="{% url 'aprobar_solicitud' s.id 'rechazar' %}">Rechazar</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

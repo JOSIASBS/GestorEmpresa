@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Crear Chat</title>
+    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">Crear nuevo chat</div>
+    <nav>
+        <a href="/fichar/">Fichar</a>
+        <a href="/empleados">Empleados</a>
+        <a href="/departamentos/">Departamentos</a>
+        <a href="/chat/">Chat</a>
+        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/calendario/">Calendario</a>
+        <a href="/">Salir</a>
+    </nav>
+</header>
+
+<div class="container">
+    <form method="post" class="form-create-chat">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <label>Tipo de chat:</label>
+            {{ form.tipo }}
+        </div>
+
+        <div class="input-group">
+            <label>Nombre (solo para grupo):</label>
+            {{ form.nombre }}
+        </div>
+
+        <div class="input-group">
+            <label>Selecciona miembros:</label>
+            {{ form.miembros }}
+        </div>
+
+        <button type="submit" class="btn send-btn">Crear</button>
+    </form>
+</div>
+
+</body>
+</html>

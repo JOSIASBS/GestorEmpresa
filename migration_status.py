@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','DjangoProject.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','api.settings')
 import django
 django.setup()
 import glob

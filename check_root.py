@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','DjangoProject.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','APIAPI.settings')
 import django
 django.setup()
 from django.db import connection
