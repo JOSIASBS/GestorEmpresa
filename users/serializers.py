@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
                     )
             return value
 
-            # Validación de email
+
 
         def validate_email(self, value):
             if value:  # si hay un valor

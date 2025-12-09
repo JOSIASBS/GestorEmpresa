@@ -1,0 +1,40 @@
+{% load static %}
+{% load hash_color %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" href="{% static 'users/css/perfil.css' %}">
+</head>
+<body>
+
+<header>
+    <!-- NO TOCAMOS NADA DEL HEADER -->
+    {{ block.super }}
+</header>
+
+<div class="perfil-container">
+
+    {% if empleado.foto %}
+        <img src="#" class="avatar">
+    {% else %}
+        <div class="avatar avatar-letra" style="background-color: {{ empleado.username|hash_color }};">
+            {{ empleado.get_full_name|default:empleado.username }}
+        </div>
+    {% endif %}
+
+    <h1>{{ empleado.get_full_name|default:empleado.username }}</h1>
+
+    <p><strong>Email:</strong> {{ empleado.email }}</p>
+    <p><strong>Teléfono:</strong> {{ empleado.telefono|default:"—" }}</p>
+    <p><strong>Dirección:</strong> {{ empleado.direccion|default:"—" }}</p>
+    <p><strong>Posición:</strong> {{ empleado.posicion|default:"—" }}</p>
+
+    <div class="acciones">
+        <a href="{% url 'users:perfil_editar' %}" class="btn">Editar Perfil</a>
+    </div>
+</div>
+
+</body>
+</html>

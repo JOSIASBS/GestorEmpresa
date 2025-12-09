@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <title>Grupo - {{ grupo.nombre }}</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/chat.css' %}">
 </head>
 <body>
 
 <header>
     <div class="logo">{{ grupo.nombre }}</div>
     <nav>
-        <a href="{% url 'chat_groups_list' %}">Volver a grupos</a>
+        <a href="{% url 'chat:chat_groups_list' %}">Volver a grupos</a>
         <a href="/">Salir</a>
     </nav>
 </header>

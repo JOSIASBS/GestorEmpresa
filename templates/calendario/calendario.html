@@ -39,8 +39,8 @@
     <h1>Calendario</h1>
 
     <nav>
-        <a href="{% url 'chat_groups_list' %}">Chat</a> |
-        <a href="{% url 'fichar' %}">Fichaje</a>
+        <a href="{% url 'chat:chat_groups_list' %}">Chat</a> |
+        <a href="{% url 'users:fichar' %}">Fichaje</a>
     </nav>
 
     <div id="calendar"></div>
@@ -55,7 +55,8 @@
     {% endif %}
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
 
     <script>
 document.addEventListener('DOMContentLoaded', function() {

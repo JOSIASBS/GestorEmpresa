@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Grupos de chat</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/chat.css' %}">
 </head>
 <body>
 
@@ -14,11 +14,11 @@
         <a href="/fichar/">Fichaje</a>
         <a href="/departamentos/">Departamentos</a>
         {% if empleado.role != 'empleado' %}
-            <a href="{% url 'empleados_list' %}">Empleados</a>
+            <a href="{% url 'users:empleados_list' %}">Empleados</a>
         {% endif %}
         <a href="/reportes/">Reportes</a>
-        <a href="/chat/">Chat</a>
-        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/chat">Chat</a>
+        <a href="{% url 'users:perfil' %}">Mi Perfil</a>
         <a href="/calendario/">Calendario</a>
         <a href="/solicitudes/">Solicitudes</a>
         <a href="/">Salir</a>
@@ -27,8 +27,8 @@
 
 <div class="container">
     <div class="top-links">
-        <a class="btn-link" href="{% url 'crear_chat' %}">Crear nuevo chat</a>
-        <a class="btn-link" href="{% url 'chat_group_detail' obtener_grupo_anuncios.id %}">#Anuncios</a>
+        <a class="btn-link" href="{% url 'chat:crear_chat' %}">Crear nuevo chat</a>
+        <a class="btn-link" href="{% url 'chat:chat_group_detail' obtener_grupo_anuncios.id %}">#Anuncios</a>
     </div>
 
     <div class="chat-columns">
@@ -42,7 +42,7 @@
                         <div class="chat-name">{{ g.nombre }}</div>
                         <div class="chat-details">{{ g.miembros.count }} miembros</div>
                     </div>
-                    <a class="chat-link" href="{% url 'chat_group_detail' g.id %}"></a>
+                    <a class="chat-link" href="{% url 'chat:chat_group_detail' g.id %}"></a>
                 </li>
                 {% empty %}
                     <li>No perteneces a ningún grupo.</li>
@@ -60,7 +60,7 @@
                         <div class="chat-name">{{ p.user.get_full_name|default:p.user.username }}</div>
                         <div class="chat-details">Último mensaje</div>
                     </div>
-                    <a class="chat-link" href="{% url 'private_chat' p.id %}"></a>
+                    <a class="chat-link" href="{% url 'chat:private_chat' p.id %}"></a>
                 </li>
                 {% empty %}
                     <li>No tienes chats privados.</li>

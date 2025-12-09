@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
@@ -31,3 +32,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.get_full_name() or self.username
+
+
+class Fichaje(models.Model):
+    empleado = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fichajes')
+    fecha = models.DateField(default=timezone.localdate)
+    hora_entrada = models.TimeField(null=True, blank=True)
+    hora_salida = models.TimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('empleado', 'fecha')
+        ordering = ['-fecha']
+
+    def __str__(self):
+        return f"{self.empleado.username} - {self.fecha}"

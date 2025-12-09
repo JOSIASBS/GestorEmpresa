@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Empleados</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
 </head>
 <body>
 
@@ -24,6 +24,10 @@
 
     <form method="post">
         {% csrf_token %}
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
 
         <div class="input-group">
             <label for="username">Usuario</label>

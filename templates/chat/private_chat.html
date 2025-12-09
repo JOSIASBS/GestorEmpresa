@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <title>Chat privado con {{ other.user.get_full_name|default:other.user.username }}</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/chat.css' %}">
 </head>
 <body>
 
 <header>
     <div class="logo">Chat con {{ other.user.get_full_name|default:other.user.username }}</div>
     <nav>
-        <a href="{% url 'chat_groups_list' %}">Volver a grupos</a>
+        <a href="{% url 'chat:chat_groups_list' %}">Volver a grupos</a>
         <a href="/empleados">Volver a empleados</a>
         <a href="/">Salir</a>
     </nav>

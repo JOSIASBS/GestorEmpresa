@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Departamentos</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/departamentos.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/departamentos.css' %}">
 </head>
 <body>
 <header>
@@ -12,11 +12,11 @@
     <nav>
         <a href="/fichar/">Fichaje</a>
         {% if empleado.role != 'empleado' %}
-            <a href="{% url 'empleados_list' %}">Empleados</a>
+            <a href="{% url 'users:empleados_list' %}">Empleados</a>
         {% endif %}
         <a href="/departamentos/">Departamentos</a>
-        <a href="/chat/">Chat</a>
-        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/chat">Chat</a>
+        <a href="{% url 'users:perfil' %}">Mi Perfil</a>
         <a href="/calendario/">Calendario</a>
         <a href="/solicitudes/">Solicitudes</a>
         <a href="/">Salir</a>

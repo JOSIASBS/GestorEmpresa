@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <title>Reportes de Asistencia</title>
-<link rel="stylesheet" href="{% static 'empleados/css/reportes.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/reportes.css' %}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -15,11 +15,11 @@
         <a href="/fichar/">Fichaje</a>
         <a href="/departamentos/">Departamentos</a>
         {% if empleado.role != 'empleado' %}
-            <a href="{% url 'empleados_list' %}">Empleados</a>
+            <a href="{% url 'users:empleados_list' %}">Empleados</a>
         {% endif %}
         <a href="/reportes/">Reportes</a>
-        <a href="/chat/">Chat</a>
-        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/chat">Chat</a>
+        <a href="{% url 'users:perfil' %}">Mi Perfil</a>
         <a href="/calendario/">Calendario</a>
         <a href="/solicitudes/">Solicitudes</a>
         <a href="/">Salir</a>
@@ -31,13 +31,13 @@
         <input type="text" id="nombre" name="nombre" placeholder="Filtrar por nombre" value="{{ nombre }}">
         <button type="submit">Buscar</button>
         {% if nombre %}
-            <a href="{% url 'reportes_asistencia' %}">Quitar filtro</a>
+            <a href="{% url 'users:reportes' %}">Quitar filtro</a>
         {% endif %}
     </form>
 
     {% for r in reportes %}
     <div class="reporte-card">
-        <h2>{{ r.empleado.user.get_full_name|default:r.empleado.user.username }}</h2>
+        <h2>{{ r.empleado.user.get_full_name|default:r.empleado.username }}</h2>
         <p>Horas trabajadas: {{ r.total_horas|floatformat:2 }} h</p>
         <p>Días trabajados: {{ r.dias_trabajados }}</p>
         <p>Retrasos: {{ r.retrasos }}</p>

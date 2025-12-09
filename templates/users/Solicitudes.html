@@ -1,10 +1,10 @@
-{% load static %}
+ {% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Solicitudes</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/solicitudes.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/solicitudes.css' %}">
 </head>
 <body>
 
@@ -14,8 +14,8 @@
         <a href="/fichar/">Fichaje</a>
         <a href="/departamentos/">Departamentos</a>
         <a href="/empleados">Empleados</a>
-        <a href="/chat/">Chat</a>
-        <a href="{% url 'perfil' %}">Mi Perfil</a>
+        <a href="/chat">Chat</a>
+        <a href="{% url 'users:perfil' %}">Mi Perfil</a>
         <a href="/calendario/">Calendario</a>
         <a href="/solicitudes/">Solicitudes</a>
         <a href="/">Salir</a>

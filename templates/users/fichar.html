@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Fichaje de {{ empleado.user.username }}</title>
-    <link rel="stylesheet" href="{% static 'empleados/css/fichaje.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/fichaje.css' %}">
     {% if messages %}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             {% for message in messages %}
                 alert("{{ message }}");
             {% endfor %}
-            window.location.href = "{% url 'fichar' %}";
+            window.location.href = "{% url 'users:fichar' %}";
         });
     </script>
     {% endif %}
@@ -22,12 +22,12 @@
         <nav>
             <a href="/fichar/">Fichaje</a>
             <a href="/departamentos/">Departamentos</a>
-            {% if empleado.role != 'empleado' %}
-            <a href="{% url 'empleados_list' %}">Empleados</a>
+           {% if not empleado.is_employee %}
+            <a href="{% url 'users:empleados_list' %}">Empleados</a>
             {% endif %}
             <a href="/reportes/">Reportes</a>
-            <a href="/chat/">Chat</a>
-            <a href="{% url 'perfil' %}">Mi Perfil</a>
+            <a href="/chat">Chat</a>
+            <a href="{% url 'users:perfil' %}">Mi Perfil</a>
             <a href="/calendario/">Calendario</a>
             <a href="/solicitudes/">Solicitudes</a>
             <a href="/">Salir</a>
@@ -35,7 +35,7 @@
     </header>
 
     <main class="container">
-        <h1>Bienvenido, {{ empleado.user.get_full_name|default:empleado.user.username }}</h1>
+        <h1>Bienvenido, {{ empleado.get_full_name|default:empleado.username }}</h1>
         <p class="role">
             Rango:
             {% if empleado.role == 'admin' %} Administrador
